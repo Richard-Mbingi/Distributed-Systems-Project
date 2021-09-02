@@ -77,7 +77,9 @@ public class ClientGUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String stdNo = stdNoText.getText();
         String stdName = stdNameText.getText();
-        System.out.println(stdNo + ", " + stdName);
+        String course = courseText.getText();
+        String otp = otpText.getText();
+        System.out.println(stdNo + "\n" + stdName + "\n" + course + "\n" + otp);
 
         //TODO: Form validation
     }
