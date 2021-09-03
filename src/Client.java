@@ -1,34 +1,87 @@
-import java.io.*;
-import java.net.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.Socket;
 
-public class Client {
+class Client implements ActionListener {
+    private static JLabel stdNoLabel;
+    private static JTextField stdNoText;
+    private static JLabel stdNameLabel;
+    private static JTextField stdNameText;
+    private static JLabel courseLabel;
+    private static JTextField courseText;
+    private static JLabel otpLabel;
+    private static JTextField otpText;
+    private static JButton button;
+    private static JLabel success;
+
     public static void main(String[] args) throws IOException {
-        //Create client socket
         Socket s = new Socket("localhost", 4999);
 
-        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+        JFrame frame = new JFrame();
+        JPanel panel = new JPanel();
 
-        //Reads data coming form the server
-        InputStreamReader in = new InputStreamReader(s.getInputStream());
-        BufferedReader bf = new BufferedReader(in);
+        frame.setSize(400, 400);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Reads data from the keyboard
-        BufferedReader kb = new BufferedReader(
-                new InputStreamReader(System.in)
-        );
+        frame.add(panel);
+        panel.setLayout(null);
 
-        String str, str1;
+        //Student No.
+        stdNoLabel = new JLabel("Student No.");
+        stdNoLabel.setBounds(10, 20, 80 ,25);
+        panel.add(stdNoLabel);
 
-        //repeat as long as logout is not typed at client
-        while (!(str = kb.readLine()).equals("logout")) {
-            //send to server
-            dos.writeBytes(str + "\n");
+        stdNoText = new JTextField(20);
+        stdNoText.setBounds(120, 20, 165 , 25);
+        panel.add(stdNoText);
 
-            //receive from the server
-            str1 = bf.readLine();
+        //Student Name
+        stdNameLabel = new JLabel("Student Name");
+        stdNameLabel.setBounds(10, 50, 80 ,25);
+        panel.add(stdNameLabel);
 
-            System.out.println(str1);
-        }
+        stdNameText = new JTextField(20);
+        stdNameText.setBounds(120, 50, 165 , 25);
+        panel.add(stdNameText);
 
+        //Course
+        courseLabel = new JLabel("Course");
+        courseLabel.setBounds(10, 80, 80 ,25);
+        panel.add(courseLabel);
+
+        courseText = new JTextField(20);
+        courseText.setBounds(120, 80, 165 , 25);
+        panel.add(courseText);
+
+        //OTP
+        otpLabel = new JLabel("OTP");
+        otpLabel.setBounds(10, 110, 80 ,25);
+        panel.add(otpLabel);
+
+        otpText = new JTextField(20);
+        otpText.setBounds(120, 110, 165 , 25);
+        panel.add(otpText);
+
+        button = new JButton("Send");
+        button.setBounds(10, 140, 80, 25);
+        button.addActionListener(new Client());
+        panel.add(button);
+
+        success = new JLabel("");
+        success.setBounds(120,140, 300, 25);
+        panel.add(success);
+
+        frame.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String stdNo = stdNoText.getText();
+        String stdName = stdNameText.getText();
+        String course = courseText.getText();
+        String otp = otpText.getText();
+        System.out.println(stdNo + "\n" + stdName + "\n" + course +"\n" + otp);
     }
 }

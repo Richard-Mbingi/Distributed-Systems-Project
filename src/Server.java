@@ -1,47 +1,28 @@
-import java.io.*;
-import java.net.*;
+import javax.swing.*;
+import java.awt.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class Server{
+public class Server {
     public static void main(String[] args) throws IOException {
-        ServerSocket ss = new ServerSocket(4999);
-        Socket s = ss.accept();
+        JFrame jFrame = new JFrame("Server");
+        jFrame.setSize(400, 400);
+        jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE);
 
-        System.out.println(("Client connected"));
+        JLabel jLabelText = new JLabel("Waiting for input from client");
 
+        jFrame.add(jLabelText, BorderLayout.SOUTH);
 
-        //Sends data to client
-        PrintStream ps = new PrintStream(s.getOutputStream());
+        jFrame.setVisible(true);
 
-        //Reads data coming from client
-        InputStreamReader in = new InputStreamReader(s.getInputStream());
-        BufferedReader bf = new BufferedReader(in);
+        ServerSocket serverSocket = new ServerSocket(4999);
 
-        //Reads data from the keyboard
-        BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
+        Socket socket = serverSocket.accept();
 
-        //server executes continuously
-        while (true) {
-            // repeats as long as client does not send a null string
-            String str, str1;
-
-            //read from client
-            while ((str = bf.readLine()) != null) {
-                System.out.println(str);
-                str1 = kb.readLine();
-
-                //send to client
-                ps.println(str1);
-            }
-
-            //Closes connection
-            ps.close();
-            bf.close();
-            kb.close();
-            ss.close();
-            s.close();
-
-            //terminate application
-            System.exit(0);
-        }
+        InputStream inputStream = socket.getInputStream();
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
     }
 }
