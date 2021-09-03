@@ -18,8 +18,9 @@ class Client implements ActionListener {
 
     public static void main(String[] args) throws IOException {
         Socket s = new Socket("localhost", 4999);
+        System.out.println("Connected");
 
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("Client");
         JPanel panel = new JPanel();
 
         frame.setSize(400, 400);

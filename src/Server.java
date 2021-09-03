@@ -31,6 +31,7 @@ public class Server {
         ServerSocket serverSocket = new ServerSocket(4999);
 
         Socket socket = serverSocket.accept();
+        jLabelText.setText("Connection Established");
 
         InputStream inputStream = socket.getInputStream();
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
