@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
@@ -29,11 +30,13 @@ public class Server {
         jFrame.setVisible(true);
 
         ServerSocket serverSocket = new ServerSocket(4999);
-
         Socket socket = serverSocket.accept();
         jLabelText.setText("Connection Established");
 
-        InputStream inputStream = socket.getInputStream();
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+        DataInputStream dis = new DataInputStream(socket.getInputStream());
+        System.out.println(dis.readUTF());
+
+//        InputStream inputStream = socket.getInputStream();
+//        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
     }
 }

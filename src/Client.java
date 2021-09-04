@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -16,9 +17,7 @@ class Client implements ActionListener {
     private static JButton button;
     private static JLabel success;
 
-    public static void main(String[] args) throws IOException {
-        Socket s = new Socket("localhost", 4999);
-        System.out.println("Connected");
+    public static void main(String[] args) {
 
         JFrame frame = new JFrame("Client");
         JPanel panel = new JPanel();
@@ -75,14 +74,24 @@ class Client implements ActionListener {
         panel.add(success);
 
         frame.setVisible(true);
+
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String stdNo = stdNoText.getText();
-        String stdName = stdNameText.getText();
-        String course = courseText.getText();
-        String otp = otpText.getText();
-        System.out.println(stdNo + "\n" + stdName + "\n" + course +"\n" + otp);
+        try {
+            Socket s = new Socket("localhost", 4999);
+            System.out.println("Connected");
+            DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+            dos.writeUTF("Text from client");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+//        String stdNo = stdNoText.getText();
+//        String stdName = stdNameText.getText();
+//        String course = courseText.getText();
+//        String otp = otpText.getText();
+//        System.out.println(stdNo + "\n" + stdName + "\n" + course +"\n" + otp);
     }
 }
