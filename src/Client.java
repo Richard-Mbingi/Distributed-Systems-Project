@@ -1,8 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 class Client implements ActionListener {
@@ -17,8 +16,19 @@ class Client implements ActionListener {
     private static JButton button;
     private static JLabel success;
 
-    public static void main(String[] args) {
+    private static Socket s;
 
+    public static void main(String[] args) throws IOException {
+
+        //Initial Connection
+        s = new Socket("localhost", 4999);
+        System.out.println("Connected");
+
+        //Receives personal code from Server
+        DataInputStream dis = new DataInputStream(s.getInputStream());
+        System.out.println(dis.readUTF());
+
+        //UI Window
         JFrame frame = new JFrame("Client");
         JPanel panel = new JPanel();
 
@@ -28,7 +38,7 @@ class Client implements ActionListener {
         frame.add(panel);
         panel.setLayout(null);
 
-        //Student No.
+        //Student No. Textbox
         stdNoLabel = new JLabel("Student No.");
         stdNoLabel.setBounds(10, 20, 80 ,25);
         panel.add(stdNoLabel);
@@ -37,7 +47,7 @@ class Client implements ActionListener {
         stdNoText.setBounds(120, 20, 165 , 25);
         panel.add(stdNoText);
 
-        //Student Name
+        //Student Name Textbox
         stdNameLabel = new JLabel("Student Name");
         stdNameLabel.setBounds(10, 50, 80 ,25);
         panel.add(stdNameLabel);
@@ -46,7 +56,7 @@ class Client implements ActionListener {
         stdNameText.setBounds(120, 50, 165 , 25);
         panel.add(stdNameText);
 
-        //Course
+        //Course Textbox
         courseLabel = new JLabel("Course");
         courseLabel.setBounds(10, 80, 80 ,25);
         panel.add(courseLabel);
@@ -55,7 +65,7 @@ class Client implements ActionListener {
         courseText.setBounds(120, 80, 165 , 25);
         panel.add(courseText);
 
-        //OTP
+        //OTP Textbox
         otpLabel = new JLabel("OTP");
         otpLabel.setBounds(10, 110, 80 ,25);
         panel.add(otpLabel);
@@ -64,6 +74,7 @@ class Client implements ActionListener {
         otpText.setBounds(120, 110, 165 , 25);
         panel.add(otpText);
 
+        //Enter Button
         button = new JButton("Send");
         button.setBounds(10, 140, 80, 25);
         button.addActionListener(new Client());
@@ -81,8 +92,6 @@ class Client implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            Socket s = new Socket("localhost", 4999);
-            System.out.println("Connected");
             DataOutputStream dos = new DataOutputStream(s.getOutputStream());
             dos.writeUTF("Text from client");
         } catch (IOException ex) {

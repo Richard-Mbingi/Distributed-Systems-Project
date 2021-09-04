@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.SecureRandom;
@@ -33,10 +30,8 @@ public class Server {
         Socket socket = serverSocket.accept();
         jLabelText.setText("Connection Established");
 
-        DataInputStream dis = new DataInputStream(socket.getInputStream());
-        System.out.println(dis.readUTF());
+        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+        dos.writeUTF("Your personal code: " + rand);
 
-//        InputStream inputStream = socket.getInputStream();
-//        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
     }
 }
