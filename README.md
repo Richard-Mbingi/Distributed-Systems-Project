@@ -10,3 +10,6 @@ The Server.java file will generate the personal code in the terminal that is to 
 ### Step 3
 Insert the student information on the client side.
 
+### Step 4
+The output should be visible in the server terminal.
+
