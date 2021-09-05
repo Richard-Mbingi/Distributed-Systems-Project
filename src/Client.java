@@ -11,10 +11,10 @@ class Client implements ActionListener {
     private static JTextField stdNameText;
     private static JLabel courseLabel;
     private static JTextField courseText;
+    private static JLabel personalCodeText;
     private static JLabel otpLabel;
     private static JTextField otpText;
     private static JButton button;
-    private static JLabel success;
 
     private static Socket s;
 
@@ -65,6 +65,13 @@ class Client implements ActionListener {
         courseText.setBounds(120, 80, 165 , 25);
         panel.add(courseText);
 
+        //TODO: Figure out how to display Server input
+        //Personal Code
+        //        String personalCode = dis.readUTF();
+//        personalCodeText = new JLabel(personalCode);
+//        personalCodeText.setBounds(10, 110, 80 ,25);
+//        panel.add(personalCodeText);
+
         //OTP Textbox
         otpLabel = new JLabel("OTP");
         otpLabel.setBounds(10, 110, 80 ,25);
@@ -80,27 +87,22 @@ class Client implements ActionListener {
         button.addActionListener(new Client());
         panel.add(button);
 
-        success = new JLabel("");
-        success.setBounds(120,140, 300, 25);
-        panel.add(success);
-
         frame.setVisible(true);
-
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
+            String stdNo = stdNoText.getText();
+            String stdName = stdNameText.getText();
+            String course = courseText.getText();
+            String otp = otpText.getText();
+
+            //Send Student Info Back
             DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-            dos.writeUTF("Text from client");
+            dos.writeUTF(stdNo + "\n" + stdName + "\n" + course +"\n" + otp);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-//        String stdNo = stdNoText.getText();
-//        String stdName = stdNameText.getText();
-//        String course = courseText.getText();
-//        String otp = otpText.getText();
-//        System.out.println(stdNo + "\n" + stdName + "\n" + course +"\n" + otp);
     }
 }

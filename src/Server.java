@@ -13,6 +13,7 @@ public class Server {
         jFrame.setSize(400, 400);
         jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE);
 
+        //Generate random number for personal code
         Random random = new SecureRandom();
         int rand = random.nextInt(30000);
 
@@ -26,12 +27,17 @@ public class Server {
 
         jFrame.setVisible(true);
 
+        //Initialize connection
         ServerSocket serverSocket = new ServerSocket(4999);
         Socket socket = serverSocket.accept();
         jLabelText.setText("Connection Established");
 
+        //Send personal code
         DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
         dos.writeUTF("Your personal code: " + rand);
 
+        //Receive Student Info
+        DataInputStream dis2 = new DataInputStream(socket.getInputStream());
+        System.out.println(dis2.readUTF());
     }
 }
